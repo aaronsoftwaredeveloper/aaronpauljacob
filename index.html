@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <script>
+    (function () {
+      try {
+        var query = new URLSearchParams(location.search).get("theme");
+        var saved = query === "light" || query === "dark" ? query : localStorage.getItem("theme");
+        if (saved === "light" || saved === "dark") {
+          document.documentElement.setAttribute("data-theme", saved);
+        }
+      } catch (error) {}
+    })();
+    function syncThemeExtras(theme) {
+      var light = theme === "light";
+      var hero = document.querySelector(".hero");
+      var wash = document.getElementById("heroWash");
+      if (hero && light && !wash) {
+        wash = document.createElement("div");
+        wash.id = "heroWash";
+        wash.className = "hero-wash";
+        wash.setAttribute("aria-hidden", "true");
+        wash.style.cssText = "position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;";
+        wash.innerHTML = '<svg viewBox="0 0 1200 700" preserveAspectRatio="none" style="width:100%;height:100%;display:block"><path fill="none" stroke="rgba(109,40,217,0.38)" stroke-width="14" stroke-linecap="round" d="M-60 180 C 180 40, 340 320, 620 140 S 980 40, 1280 220"/><path fill="none" stroke="rgba(139,92,246,0.32)" stroke-width="8" stroke-linecap="round" d="M-40 500 C 220 660, 460 340, 760 520 S 1080 700, 1300 420"/><path fill="none" stroke="rgba(196,181,253,0.7)" stroke-width="4" stroke-linecap="round" d="M140 -40 C 240 220, 540 80, 720 300 S 980 560, 1220 380"/></svg>';
+        hero.insertBefore(wash, hero.firstChild);
+      }
+      if (!light && wash) wash.remove();
+      var badge = document.querySelector(".aws-badge");
+      if (badge) badge.style.setProperty("color", light ? "#ffffff" : "#1a1208", "important");
+    }
+    function toggleSiteTheme() {
+      var root = document.documentElement;
+      var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem("theme", next); } catch (error) {}
+      var button = document.getElementById("themeToggle");
+      if (button) {
+        var light = next === "light";
+        button.setAttribute("aria-pressed", light ? "true" : "false");
+        button.setAttribute("aria-label", light ? "Switch to dark mode" : "Switch to light mode");
+      }
+      syncThemeExtras(next);
+      root.dispatchEvent(new CustomEvent("themechange"));
+    }
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aaron Paul Jacob — Software Engineer</title>
+  <meta name="description" content="Aaron Paul Jacob, software engineer at Expedia Group. Payments systems, distributed architecture, and cloud automation." />
+  <meta property="og:title" content="Aaron Paul Jacob — Software Engineer" />
+  <meta property="og:description" content="Checkout payments, machine-learning ranking, and infrastructure that scales." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wdth,wght@108,400;108,500;108,600;108,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a class="logo" href="#top">APJ</a>
+    <div class="nav-end">
+      <nav id="navMenu">
+        <a href="#about">About</a>
+        <a href="#education">Education</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#lab">Architecture</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Switch to light mode" onclick="toggleSiteTheme()">
+        <span class="theme-icon theme-icon-moon" aria-hidden="true">☾</span>
+        <span class="theme-knob" aria-hidden="true"></span>
+        <span class="theme-icon theme-icon-sun" aria-hidden="true">☀</span>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <canvas id="stars" aria-hidden="true"></canvas>
+      <div class="hero-copy reveal">
+        <p class="eyebrow">SDE II · Expedia Group</p>
+        <p class="aws-pill"><span class="aws-badge">AWS</span><span>Certified Developer – Associate</span></p>
+        <h1>Aaron Paul <em>Jacob</em></h1>
+        <p class="lede">Software Engineer with 4+ years of experience. I build systems that support payments, ranking of methods, and infrastructure refreshes for Expedia, Hotels.com, and Vrbo.</p>
+        <div class="hero-actions">
+          <a class="btn gold" href="#lab">See it scale</a>
+          <a class="btn ghost" href="https://www.linkedin.com/in/aaron-paul-j-b0406517a" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+        <ul class="hero-stats">
+          <li><strong>$14M</strong><span>selection booking value</span></li>
+          <li><strong>$20M</strong><span>autofill booking value</span></li>
+          <li><strong>$151K</strong><span>saved each year</span></li>
+        </ul>
+      </div>
+      <figure class="portrait reveal">
+        <div class="ring"></div>
+        <div class="ring ring-2"></div>
+        <img src="assets/aaron.jpg" alt="Aaron Paul Jacob" />
+        <figcaption>New Delhi · Payments platform</figcaption>
+      </figure>
+    </section>
+
+    <section class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Expedia</span><span>Hotels.com</span><span>Vrbo</span><span>GraphQL</span><span>gRPC</span><span>Kotlin</span><span>AWS</span><span>Machine learning</span>
+        <span>Expedia</span><span>Hotels.com</span><span>Vrbo</span><span>GraphQL</span><span>gRPC</span><span>Kotlin</span><span>AWS</span><span>Machine learning</span>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="section-head reveal">
+        <h2>About</h2>
+      </div>
+      <div class="about-grid">
+        <p class="reveal">I am a backend engineer at Expedia Group. For the last 4 years I have worked on the payments platform behind modern checkout — the moment a traveler decides to book. Before that I automated how the company patches its cloud, and that work earned a Travel Award.</p>
+        <p class="reveal">I like designs you can feel under load: stateless services, caches that actually get hit, databases that do not become the bottleneck, and releases you can explain with a number. This site is a small version of that habit — including a live diagram you can push until it scales.</p>
+      </div>
+    </section>
+
+    <section id="education" class="section">
+      <div class="section-head reveal">
+        <h2>Education</h2>
+      </div>
+      <div class="edu-list">
+        <div class="edu reveal">
+          <h3>B.Tech, Software Engineering</h3>
+          <p>Delhi Technological University · 2018–2022</p>
+          <p>CGPA 9.46 / 10 · 7th in the department</p>
+        </div>
+        <div class="edu reveal">
+          <h3>B.E. Biotechnology, four semesters</h3>
+          <p>NSIT, Delhi University · 2016–2018</p>
+          <p>86.7% · 2nd in the department</p>
+        </div>
+        <div class="edu reveal">
+          <h3>Somerville School, CBSE</h3>
+          <p>Class XII, 2014–2016 · 90.2% · school Physics board topper</p>
+          <p>Class X, 2013–2014 · 93% (CGPA 9.8)</p>
+        </div>
+      </div>
+    </section>
+
+        <section id="experience" class="section">
+      <div class="section-head reveal">
+        <h2>Experience</h2>
+      </div>
+      <ol class="timeline">
+        <li class="reveal">
+          <div>
+            <h3>Expedia Group · SDE II</h3>
+            <p>Payments platform for Expedia, Hotels.com, and Vrbo. Checkout conversion, ML ranking, wallets, Pay Later, and on-call for a revenue-critical path.</p>
+          </div>
+          <time>Sep 2023 — Present</time>
+        </li>
+        <li class="reveal">
+          <div>
+            <h3>Expedia Group · SDE I</h3>
+            <p>Lifecycle operations. Golden AMI automation, 100% production readiness, and Kubernetes delivery with Jenkins, Helm, and Spinnaker.</p>
+          </div>
+          <time>Aug 2022 — Sep 2023</time>
+        </li>
+        <li class="reveal">
+          <div>
+            <h3>Amigo Softcom · Intern</h3>
+            <p>Google Workspace plugin from OAuth through a React interface.</p>
+          </div>
+          <time>Jan 2022 - May 2022</time>
+        </li>
+        <li class="reveal">
+          <div>
+            <h3>Expedia Group · Intern</h3>
+            <p>API health harness with Cucumber and REST Assured, reporting into Slack every day.</p>
+          </div>
+          <time>May 2021 - July 2021</time>
+        </li>
+        <li class="reveal">
+          <div>
+            <h3>Pep Coding · Teaching Assistant </h3>
+            <p>Taught data structures and algorithms and coached students through interview-style problems</p>
+          </div>
+          <time>May 2020 - July 2020</time>
+        </li>
+      </ol>
+    </section>
+    
+    <section id="honors" class="section">
+      <div class="section-head reveal">
+        <h2>Certifications and recognition</h2>
+      </div>
+      <div class="duo">
+        <aside class="cert-box reveal">
+          <p class="work-kicker">Certification</p>
+          <h3>AWS Certified Developer – Associate</h3>
+          <p>Building and shipping on AWS: Image Builder, CloudFormation, compute, storage, and IAM. The same toolkit behind the Golden AMI work.</p>
+        </aside>
+        <aside class="cert-box reveal" id="recognition">
+          <p class="work-kicker">Recognition</p>
+          <h3>Travel Award</h3>
+          <p>Expedia Group recognized the Golden AMI work: one-click image builds that became the way infrastructure gets refreshed, with about $151K a year returned in engineering time.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="section-head reveal">
+        <h2>Projects worked on</h2>
+      </div>
+      <div class="work-grid">
+        <button type="button" class="work-card reveal is-on" data-arch="pay" data-jump="1">
+          <p class="work-kicker">Checkout</p>
+          <h3>A calmer way to pay</h3>
+          <p>Two separate experiments. Payment selection lifted conversion 0.42% and payment success 0.26%. Browser autofill was its own readout.</p>
+          <ul>
+            <li>+0.42% selection conversion</li>
+            <li>$14M selection value</li>
+            <li>$20M autofill value</li>
+          </ul>
+        </button>
+        <button type="button" class="work-card reveal" data-arch="ml" data-jump="1">
+          <p class="work-kicker">Machine learning</p>
+          <h3>Rank the method most likely to succeed</h3>
+          <p>A production ranking model, trained on hundreds of millions of checkout records, chooses the payment option most likely to go through on the first try.</p>
+          <ul>
+            <li>+0.15% payment success</li>
+            <li>~360M records</li>
+            <li>99.8% live reliability</li>
+          </ul>
+        </button>
+        <button type="button" class="work-card reveal" data-arch="pay" data-jump="1">
+          <p class="work-kicker">Wallets &amp; Pay Later</p>
+          <h3>More ways to complete the trip</h3>
+          <p>Pay Later on Expedia and Hotels.com, Google Pay and Apple Pay on Vrbo, and iDEAL in the Netherlands — where it is already 41% of Expedia payments.</p>
+          <ul>
+            <li>$100M+ deferred-payment program</li>
+            <li>Up to +5.39% payment success</li>
+            <li>8+ services in the flow</li>
+          </ul>
+        </button>
+        <button type="button" class="work-card reveal" data-arch="ami" data-jump="1">
+          <p class="work-kicker">Cloud · Travel Award</p>
+          <h3>Patching, in one click</h3>
+          <p>Golden AMI adoption with EC2 Image Builder and CloudFormation. Refresh effort fell from four person-weeks to two person-hours.</p>
+          <ul>
+            <li>~$151K saved each year</li>
+            <li>17 images · 12 apps · 7 accounts</li>
+            <li>Expedia Group Travel Award</li>
+          </ul>
+        </button>
+      </div>
+    </section>
+
+    <section id="lab" class="section lab">
+      <div class="section-head reveal">
+        <h2>Architecture</h2>
+        <p class="section-note">This section highlights the architectures of the systems I have worked on.</p>
+        <p class="section-note" id="archNote">Checkout traffic lands on the Experience service, then Payment Session Service writes the session to DynamoDB and calls FOPA. Each of those three Kubernetes deployments scales on its own.</p>
+      </div>
+
+      <div class="arch-tabs" id="archTabs">
+        <button type="button" data-arch="pay" class="is-on">Payments<small>Experience, PSS, DynamoDB, FOPA</small></button>
+        <button type="button" data-arch="ml">ML FOP ranking<small>Flyte workflows, EGDL, MRS</small></button>
+        <button type="button" data-arch="ami">Golden AMI<small>Image factory to Spinnaker refresh</small></button>
+      </div>
+
+      <div class="lab-shell reveal">
+        <div class="lab-controls">
+          <label for="rps"><span id="sliderCaption">Checkout requests</span> <strong id="rpsLabel">1,200</strong></label>
+          <input id="rps" type="range" min="100" max="4000" step="50" value="1200" />
+          <div class="presets" id="presets"></div>
+          <dl class="metrics">
+            <div><dt id="metricALabel">Prod stacks</dt><dd id="mPods">8</dd></div>
+            <div><dt id="metricBLabel">Automated</dt><dd id="mLat">2 h</dd></div>
+            <div><dt id="metricCLabel">If still manual</dt><dd id="mStuck">75 h</dd></div>
+            <div><dt id="metricDLabel">Accounts</dt><dd id="mCache">4</dd></div>
+            <div><dt id="metricELabel">Images</dt><dd id="mRep">8</dd></div>
+          </dl>
+          <p class="principle" id="principleText"></p>
+        </div>
+        <div class="stage-wrap">
+          <p class="diagram-hint">Swipe sideways to read the diagram.</p>
+          <svg id="diagram" viewBox="0 0 1180 640" role="img" aria-label="Architecture diagram for the selected project. Particles show work moving through the system as the slider changes load."></svg>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="section">
+      <div class="section-head reveal">
+        <p class="eyebrow">Skills</p>
+        <h2>The toolbox.</h2>
+      </div>
+      <div class="skill-groups">
+        <div class="reveal"><h3>Languages</h3><p>Kotlin, Java, C++</p></div>
+        <div class="reveal"><h3>Backend</h3><p>Spring Boot, GraphQL, gRPC, REST, microservices</p></div>
+        <div class="reveal"><h3>Cloud</h3><p>EC2 Image Builder, CloudFormation, EKS, Lambda, IAM, S3, Auto Scaling</p></div>
+        <div class="reveal"><h3>Delivery</h3><p>Kubernetes, Helm, Docker, Jenkins, Spinnaker, GitHub Actions</p></div>
+        <div class="reveal"><h3>Data &amp; ML</h3><p>Flyte, Databricks, Spark, Iceberg, Airflow</p></div>
+        <div class="reveal"><h3>Quality</h3><p>Splunk, Datadog, PagerDuty, Karate, Cucumber, JUnit</p></div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact">
+      <div class="reveal">
+        <p class="eyebrow">Contact</p>
+        <h2>Let’s build something that <em>holds under load.</em></h2>
+        <p>Open to conversations about backend systems, payments, and platform engineering.</p>
+        <div class="hero-actions">
+          <a class="btn gold" href="mailto:aaron.pauljacob@gmail.com">aaron.pauljacob@gmail.com</a>
+          <a class="btn ghost" href="tel:+919810146716">+91-9810146716</a>
+          <a class="btn ghost" href="https://www.linkedin.com/in/aaron-paul-j-b0406517a" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Aaron Paul Jacob</span>
+    <span>New Delhi</span>
+    <a href="https://www.linkedin.com/in/aaron-paul-j-b0406517a" target="_blank" rel="noopener">LinkedIn</a>
+  </footer>
+
+  <script>syncThemeExtras(document.documentElement.getAttribute("data-theme") || "dark");</script>
+  <script src="js/architecture.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
